@@ -1,4 +1,5 @@
 ### orank_processing
+library(plyr)
 source("/home/matt/GIT_Repos/O-Rank/code/orank_functions.R")
 input <- "/home/matt/GIT_Repos/O-Rank/input/"
 output <- "/home/matt/GIT_Repos/O-Rank/output/"
@@ -7,10 +8,10 @@ output <- "/home/matt/GIT_Repos/O-Rank/output/"
 #output <- "/Users/Matt/Documents/R/O_Rank/output/"
 
 statnav_db <- read.csv(paste0(input,"statnav_db.csv"),header=T,fill=TRUE,sep=";")
-current <- read.table(paste0(input,"current.txt"),header=F,row.names = 1) 
-
+current <- read.table(paste0(input,"current.txt"),header=T,row.names = 1) 
+head(current)
 ### read a winsplits reslut and obtain name, club, and time
-### paste a winsplits results to result.csv and save
+### paste a winsplits results to result.txt and save
 result <- "results.txt"
 
 #######################################################################################
@@ -28,7 +29,7 @@ Z <- as.matrix(X[,2:dim(X)[2]])
 Zscaled <- 1000 + (Z - mean(Z,na.rm=T))*200/sd(Z,na.rm=T)
 current2 <- cbind.data.frame(current[,1],Zscaled)
 colnames(current2) <- "FullName"
-write.table(current2,paste0(input,"current.txt"),quote=F,col.names = F)
+write.table(current2,paste0(input,"current.txt"),quote=F,col.names = T)
 #######################################################################################
 current2[current2[,"FullName"]=="OllieBixley",]
 current2[current2[,1]=="AnnBixley",]
@@ -37,20 +38,11 @@ current[current[,1]=="MattBixley",]
 x <- current2[current2[,1]=="JeniPelvin",]
 rank5(x)
 
-require(plyr)
-ddply(current, "FullName", rank5)
-
-mean(scaledcurrent,na.rm=T)
-curr <- as.matrix(current[,2:19])
-scaledcurrent <- 1000 + (curr - mean(curr,na.rm=T))*200/sd(curr,na.rm=T)
-newcurr <- cbind.data.frame(FullName=current$FullName,scaledcurrent)
-x <- newcurr[newcurr$FullName=="NickHann",]
-rank5(x)
-
+rank <- ddply(current,"FullName",rank5)
+rank[order(-rank$V1),]
 
 my_rank("AnnBixley")
 my_rank("MattBixley")
-
 
 #### running single jobs from excel
 matarae_long <- read.table("/home/matt/GIT_Repos/O-Rank/input/matarae_long.csv",header=T,fill=TRUE,sep=",")
@@ -65,11 +57,3 @@ e3 <- course_score(mtross_combined)
 e4 <- course_score(matarae_long)
 e5 <- course_score(kairaki)
 
-eall <- rbind(e1,e2,e3,e4)
-
-
-eall <- rbind(e1,e2,e3,e4)
-RP <- as.numeric(as.character(eall[,2]))/5
-
-
-eall <- cbind(eall,RP)

@@ -63,7 +63,8 @@ return(CP)
 }
 
 ### rescale current score points for entire database
-RPs <- 1000 + (RP - mean(RP))*200/sd(RP)
+###RPs <- 1000 + (RP - mean(RP))*200/sd(RP)
+###
 
 ### function to print my rank
 my_rank <- function(MyName){
