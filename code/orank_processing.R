@@ -33,11 +33,19 @@ current[current$FullName=="OllieBixley",]
 current[current$FullName=="AnnBixley",]
 current[current$FullName=="MattBixley",]
 
-x <- current[current$FullName=="NickHann",]
+x <- current[current$FullName=="OllieBixley",]
 rank5(x)
 
 require(plyr)
 ddply(current, "FullName", rank5)
+
+mean(scaledcurrent,na.rm=T)
+curr <- as.matrix(current[,2:19])
+scaledcurrent <- 1000 + (curr - mean(curr,na.rm=T))*200/sd(curr,na.rm=T)
+newcurr <- cbind.data.frame(FullName=current$FullName,scaledcurrent)
+x <- newcurr[newcurr$FullName=="NickHann",]
+rank5(x)
+
 
 my_rank("AnnBixley")
 my_rank("MattBixley")
