@@ -51,8 +51,8 @@ course_score <- function(race){
   #MP = mean points of ranked runners current score
   # bottom 10% excluded from SP and MP calc
 
-  MP <- mean(as.matrix(race[1:floor(0.9*length(race$Name)),15:dim(race)[2]]),na.rm=T)
-  SP <- sd(as.matrix(race[1:floor(0.9*length(race$Name)),15:dim(race)[2]]),na.rm=T)
+  MP <- mean(as.matrix(race[1:floor(0.9*length(race$Name)),3:dim(race)[2]]),na.rm=T)
+  SP <- sd(as.matrix(race[1:floor(0.9*length(race$Name)),3:dim(race)[2]]),na.rm=T)
 
   RP <- MP + (((MT-RT)/ST) * SP) 
   

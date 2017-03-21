@@ -9,30 +9,30 @@ output <- "/home/matt/GIT_Repos/O-Rank/output/"
 
 statnav_db <- read.csv(paste0(input,"statnav_db.csv"),header=T,fill=TRUE,sep=";")
 current <- read.table(paste0(input,"current.txt"),header=T,row.names = 1) 
-head(current)
 ### read a winsplits reslut and obtain name, club, and time
 ### paste a winsplits results to result.txt and save
 result <- "results.txt"
 
 #######################################################################################
-race <- winsplit(result="results.txt",split=",")
-racefull <- merge(race,statnav_db,by.x="Name",by.y="FullName",all.x=T)
+current <- read.table(paste0(input,"current.txt"),header=T,row.names = 1) 
+race <- winsplit(result="results.txt",split=" ")
+racefull <- merge(race,current,by.x="Name",by.y="FullName",all.x=T)
 
 ### calculate the race points to add to current for ALL
 U <- course_score(racefull);U
 #######################################################################################
 
 X <- merge(current,U,by.x = "FullName",by.y="Name",all.x=T,all.y=T)
-X <- current
+
 ### scale current to Mean 1000, SD 200
 Z <- as.matrix(X[,2:dim(X)[2]]) 
 Zscaled <- 1000 + (Z - mean(Z,na.rm=T))*200/sd(Z,na.rm=T)
-current2 <- cbind.data.frame(current[,1],Zscaled)
+current2 <- cbind.data.frame(X[,1],Zscaled)
 colnames(current2) <- "FullName"
 write.table(current2,paste0(input,"current.txt"),quote=F,col.names = T)
 #######################################################################################
 current2[current2[,"FullName"]=="OllieBixley",]
-current2[current2[,1]=="AnnBixley",]
+current2[current2[,1]=="KieranEdwards",]
 current[current[,1]=="MattBixley",]
 
 x <- current2[current2[,1]=="JeniPelvin",]
