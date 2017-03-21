@@ -79,10 +79,3 @@ rank5 <- function(x,n=5){
   return(U)
 }
 
-rank5 <- function(x,n=5){
-  # <- x[,2:dim(x)[2]]
-  ndx <- order(x, decreasing = T)[1:n]
-  U <- sum(x[ndx])
-  return(U)
-}
-  

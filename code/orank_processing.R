@@ -3,37 +3,38 @@ source("/home/matt/GIT_Repos/O-Rank/code/orank_functions.R")
 input <- "/home/matt/GIT_Repos/O-Rank/input/"
 output <- "/home/matt/GIT_Repos/O-Rank/output/"
 
-input <- "/Users/Matt/Documents/R/O_Rank/input/"
-output <- "/Users/Matt/Documents/R/O_Rank/output/"
+#input <- "/Users/Matt/Documents/R/O_Rank/input/"
+#output <- "/Users/Matt/Documents/R/O_Rank/output/"
 
 statnav_db <- read.csv(paste0(input,"statnav_db.csv"),header=T,fill=TRUE,sep=";")
-current <- statnav_db[,c(3,14:dim(statnav_db)[2])]
+current <- read.table(paste0(input,"current.txt"),header=F,row.names = 1) 
 
 ### read a winsplits reslut and obtain name, club, and time
 ### paste a winsplits results to result.csv and save
 result <- "results.txt"
 
+#######################################################################################
 race <- winsplit(result="results.txt",split=",")
 racefull <- merge(race,statnav_db,by.x="Name",by.y="FullName",all.x=T)
 
 ### calculate the race points to add to current for ALL
 U <- course_score(racefull);U
+#######################################################################################
 
-current <- merge(current,U,by.x = "FullName",by.y="Name",all.x=T,all.y=T)
+X <- merge(current,U,by.x = "FullName",by.y="Name",all.x=T,all.y=T)
+X <- current
+### scale current to Mean 1000, SD 200
+Z <- as.matrix(X[,2:dim(X)[2]]) 
+Zscaled <- 1000 + (Z - mean(Z,na.rm=T))*200/sd(Z,na.rm=T)
+current2 <- cbind.data.frame(current[,1],Zscaled)
+colnames(current2) <- "FullName"
+write.table(current2,paste0(input,"current.txt"),quote=F,col.names = F)
+#######################################################################################
+current2[current2[,"FullName"]=="OllieBixley",]
+current2[current2[,1]=="AnnBixley",]
+current[current[,1]=="MattBixley",]
 
-write.table(current,paste0(input,"current.txt"),quote=F,col.names = F)
-
-current[current$FullName=="OllieBixley",]
-
-#current <- read.table(paste0(input,"current.txt"),header=F,row.names = 1)
-#colnames(current) <- c("FullName","C1","C2","C3","C4","C5","C6","C7","C8","C9","C10","C11","C12","C13")
-#current <- current[,-15]
-
-current[current$FullName=="OllieBixley",]
-current[current$FullName=="AnnBixley",]
-current[current$FullName=="MattBixley",]
-
-x <- current[current$FullName=="OllieBixley",]
+x <- current2[current2[,1]=="JeniPelvin",]
 rank5(x)
 
 require(plyr)
