@@ -43,4 +43,15 @@ head(current)[,1:7]
 
 Mean = **`r mean(Z,na.rm=T)`** and Standard Deviation = **`r sd(Z,na.rm=T)`** as expected.
 
+The score for a given race is calculated as follows
+
+RT = Time in minutes  
+MT = Mean race time for ALL runners  
+ST = Standard Deviation of ALL runners times  
+RP = Race Points  
+
+MP and SP are the mean and standard deviation of the CURRENT scores (all, not just best 5) for the top 90% of the field. It is this values that I will be changing for the race I've selected. Of most interest is the effect of including more runners, ie the the tail of the field, so 95% and 100%.  
+ 
+$$RP = SP*\frac{(MT-RT)}{ST} + MP$$
+
 

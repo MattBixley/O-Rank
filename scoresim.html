@@ -148,6 +148,13 @@ $(document).ready(function () {
 ## 5   AlCory-Wright       NA       NA       NA       NA       NA       NA
 ## 6    AleishaNeary 929.1214 929.1214 929.1214 929.1214 929.1214 1112.982</code></pre>
 <p>Mean = <strong>1000</strong> and Standard Deviation = <strong>200</strong> as expected.</p>
+<p>The score for a given race is calculated as follows</p>
+<p>RT = Time in minutes<br />
+MT = Mean race time for ALL runners<br />
+ST = Standard Deviation of ALL runners times<br />
+RP = Race Points</p>
+<p>MP and SP are the mean and standard deviation of the CURRENT scores (all, not just best 5) for the top 90% of the field. It is this values that I will be changing for the race I’ve selected. Of most interest is the effect of including more runners, ie the the tail of the field, so 95% and 100%.</p>
+<p><span class="math display">\[RP = SP*\frac{(MT-RT)}{ST} + MP\]</span></p>
 </div>
 
 
