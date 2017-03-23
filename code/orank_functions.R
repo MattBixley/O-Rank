@@ -35,7 +35,7 @@ winsplit <- function(result,split=" "){
   return(winsplit)
 }
 
-race <- racefull
+#race <- racefull
 ### statnav function
 course_score <- function(race){
   race <- race[order(as.numeric(as.character(race$Minutes))),]

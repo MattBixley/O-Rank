@@ -1,0 +1,46 @@
+---
+title: "Score Simulation"
+author: "Matt"
+date: "23 March 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+source("/home/matt/GIT_Repos/O-Rank/code/orank_functions.R")
+input <- "/home/matt/GIT_Repos/O-Rank/input/"
+output <- "/home/matt/GIT_Repos/O-Rank/output/"
+
+
+```
+
+## Estimating Current Score
+
+The British Orienteering Federation method of ranking is the most widely recognised, the IOF have subsequently taken it on board. Australia and New Zealand also use the same method with variation.
+
+insert weblink to methodology
+
+Essentially all orienteers have a set of current scores for a 12 month window. Each race is scored and the best 6 (5 for for New Zealand) contribute to your ranking. Races are considered for ranking if they have 10 complete runs, ie excluding DNFs, DQs and MPs. The bottom 10% are also discarded for part of the calculation.
+
+All this document is designed to do is look at different numbers and proportions to see if 10 and the 90th percentile are suited to NZ or can we use different value and get the same current score for an event/race. 
+
+New Zealand Rankings have been kept at [StatNav](www.statnav.co.nz) since 2014. As at Februrary 2017 the top of the table is as follows, with Nick Hann at the top.
+
+```{r StatNav}
+statnav_db <- read.csv(paste0(input,"statnav_db.csv"),header=T,fill=TRUE,sep=";")
+head(statnav_db)[,3:12]
+hist(statnav_db$Score,breaks=50,main="Historgram of Ranking Score",xlab="Score")
+```
+
+
+I used the rankings to generate a set of "Current" scores. The ranking score is the best 5 of your results, I then estimated another 5 results such that the overall mean and standard deviation were 1000 and 200 respectively. That was simply subtracting 2x the mean of the Current Score based on the Ranking Score.
+Additionally a number of other races were added to test the over all system. This gave the table of current scores to be used in the simulation
+```{r CurrentScore}
+current <- read.table(paste0(input,"current.txt"),header=T,row.names = 1)
+Z <- as.matrix(current[,2:dim(current)[2]]) 
+head(current)[,1:7]
+```
+
+Mean = **`r mean(Z,na.rm=T)`** and Standard Deviation = **`r sd(Z,na.rm=T)`** as expected.
+
+
