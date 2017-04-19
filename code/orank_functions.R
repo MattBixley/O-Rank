@@ -37,11 +37,11 @@ winsplit <- function(result,split=" "){
 
 #race <- racefull
 ### statnav function
-course_score <- function(race){
-  race <- racefull
-  race <- race[order(as.numeric(as.character(race$Minutes))),]
+course_score <- function(racefull){
+
+  racefull <- racefull[order(as.numeric(as.character(racefull$Minutes))),]
   ## RT = Run Time
-  RT = as.numeric(as.character(race$Minutes))
+  RT = as.numeric(as.character(racefull$Minutes))
   
   ## MT/ST = Mean/SD all runners time
   MT = mean(RT,na.rm=T)
@@ -52,13 +52,13 @@ course_score <- function(race){
   #MP = mean points of ranked runners current score
   # bottom 10% excluded from SP and MP calc
 
-  MP <- mean(as.matrix(race[1:floor(0.9*length(race$Name)),3:dim(race)[2]]),na.rm=T)
-  SP <- sd(as.matrix(race[1:floor(0.9*length(race$Name)),3:dim(race)[2]]),na.rm=T)
+  MP <- mean(as.matrix(racefull[1:floor(0.9*length(racefull$Name)),3:dim(racefull)[2]]),na.rm=T)
+  SP <- sd(as.matrix(racefull[1:floor(0.9*length(racefull$Name)),3:dim(racefull)[2]]),na.rm=T)
 
   RP <- MP + (((MT-RT)/ST) * SP) 
   
   #Current Ponts to Add
-  CP <- cbind.data.frame(Name=as.character(race$Name),Points=round(RP,1))
+  CP <- cbind.data.frame(Name=as.character(racefull$Name),Points=round(RP,1))
 
 return(CP)
 }
@@ -75,10 +75,15 @@ my_rank <- function(MyName){
 }
 
 rank5 <- function(x,n=5){
-  x <- x[,2:dim(x)[2]]
-  ndx <- order(x, decreasing = T)[1:n]
-  U <- sum(x[ndx])
-  return(U)
+  current <- read.table(paste0(input,"current.txt"),header=T,row.names = 1) 
+  U <- current[current[,1]==x,]
+  U <- U[,2:dim(U)[2]]
+  ndx <- order(U, decreasing = T)[1:n]
+  bestraces <- U[ndx]
+  SCORE <- sum(U[ndx])
+  result <- rbind(t(bestraces),SCORE)
+  colnames(result) <- x
+  return(round(result,0))
 }
 
 racename <- function()
