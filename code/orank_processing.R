@@ -42,7 +42,10 @@ current2[current2[,"FullName"]=="NathanFaavae",]
 x <- current2[current2[,1]=="MattBixley",]
 x <- current2[current2[,1]=="NathanFa'avae",]
 
-rank5(x)
+
+### need to implement function to record date and name of race and append to a separate file
+### pull out name and date when running rank function
+rank5("MattBixley")
 
 rank <- ddply(current2,"FullName",rank5)
 rank[order(-rank$V1),]
