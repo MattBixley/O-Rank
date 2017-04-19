@@ -35,12 +35,6 @@ colnames(current2)[ncol(current2)] <- racename()
 
 write.table(current2,paste0(input,"current.txt"),quote=F,col.names = T)
 #######################################################################################
-current2[current2[,"FullName"]=="OllieBixley",]
-current2[current2[,"FullName"]=="MattBixley",]
-current2[current2[,"FullName"]=="NathanFaavae",]
-
-x <- current2[current2[,1]=="MattBixley",]
-x <- current2[current2[,1]=="NathanFa'avae",]
 
 
 ### need to implement function to record date and name of race and append to a separate file
