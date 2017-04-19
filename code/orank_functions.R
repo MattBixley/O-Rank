@@ -86,6 +86,14 @@ rank5 <- function(x,n=5){
   return(round(result,0))
 }
 
+rank <- function(x,n=5){
+  x <- x[,2:dim(x)[2]]
+  ndx <- order(x, decreasing = T)[1:n]
+  SCORE <- sum(x[ndx])
+  return(SCORE)
+}
+
+
 racename <- function()
 { 
   n <- readline(prompt="Enter Race Name (No Spaces) -> ")

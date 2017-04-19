@@ -41,22 +41,13 @@ write.table(current2,paste0(input,"current.txt"),quote=F,col.names = T)
 ### pull out name and date when running rank function
 rank5("MattBixley")
 
-rank <- ddply(current2,"FullName",rank5)
+### update currnt rank score
+ranks <- ddply(current,"FullName",rank)
+
+
 rank[order(-rank$V1),]
 
 my_rank("AnnBixley")
 my_rank("MattBixley")
 
-#### running single jobs from excel
-matarae_long <- read.table("/home/matt/GIT_Repos/O-Rank/input/matarae_long.csv",header=T,fill=TRUE,sep=",")
-mtross_c1 <- read.table("/home/matt/GIT_Repos/O-Rank/input/mtross_c1.csv",header=T,fill=TRUE,sep=",")
-matarae_medium <- read.table("/home/matt/GIT_Repos/O-Rank/input/matarae_medium.csv",header=T,fill=TRUE,sep=",")
-mtross_combined <- read.table("/home/matt/GIT_Repos/O-Rank/input/mtross_combined.csv",header=T,fill=TRUE,sep=",")
-kairaki <- read.table("/home/matt/GIT_Repos/O-Rank/input/kairaki.csv",header=T,fill=TRUE,sep=",")
-
-e1 <- course_score(matarae_medium)
-e2 <- course_score(mtross_c1)
-e3 <- course_score(mtross_combined)
-e4 <- course_score(matarae_long)
-e5 <- course_score(kairaki)
 
