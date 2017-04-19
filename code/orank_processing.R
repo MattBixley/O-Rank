@@ -1,11 +1,13 @@
 ### orank_processing
 library(plyr)
+
+
 source("/home/matt/GIT_Repos/O-Rank/code/orank_functions.R")
 input <- "/home/matt/GIT_Repos/O-Rank/input/"
 output <- "/home/matt/GIT_Repos/O-Rank/output/"
 
-#input <- "/Users/Matt/Documents/R/O_Rank/input/"
-#output <- "/Users/Matt/Documents/R/O_Rank/output/"
+input <- "/Users/Matt/Documents/R/O_Rank/input/"
+output <- "/Users/Matt/Documents/R/O_Rank/output/"
 
 statnav_db <- read.csv(paste0(input,"statnav_db.csv"),header=T,fill=TRUE,sep=";")
 current <- read.table(paste0(input,"current.txt"),header=T,row.names = 1) 
@@ -29,16 +31,20 @@ Z <- as.matrix(X[,2:dim(X)[2]])
 Zscaled <- 1000 + (Z - mean(Z,na.rm=T))*200/sd(Z,na.rm=T)
 current2 <- cbind.data.frame(X[,1],Zscaled)
 colnames(current2) <- "FullName"
+colnames(current2)[ncol(current2)] <- racename()
+
 write.table(current2,paste0(input,"current.txt"),quote=F,col.names = T)
 #######################################################################################
 current2[current2[,"FullName"]=="OllieBixley",]
-current2[current2[,1]=="KieranEdwards",]
-current[current[,1]=="MattBixley",]
+current2[current2[,"FullName"]=="MattBixley",]
+current2[current2[,"FullName"]=="NathanFaavae",]
 
-x <- current2[current2[,1]=="JeniPelvin",]
+x <- current2[current2[,1]=="MattBixley",]
+x <- current2[current2[,1]=="NathanFa'avae",]
+
 rank5(x)
 
-rank <- ddply(current,"FullName",rank5)
+rank <- ddply(current2,"FullName",rank5)
 rank[order(-rank$V1),]
 
 my_rank("AnnBixley")

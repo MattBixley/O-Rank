@@ -38,13 +38,14 @@ winsplit <- function(result,split=" "){
 #race <- racefull
 ### statnav function
 course_score <- function(race){
+  race <- racefull
   race <- race[order(as.numeric(as.character(race$Minutes))),]
   ## RT = Run Time
   RT = as.numeric(as.character(race$Minutes))
   
   ## MT/ST = Mean/SD all runners time
-  MT = mean(RT)
-  ST = sd(RT)
+  MT = mean(RT,na.rm=T)
+  ST = sd(RT,na.rm=T)
   
   ## MP/SP = SD of ranked runners current score (mean for ALL events)
   #SP = sd of ranked runners current score) ### need a dataframe of runners
@@ -79,4 +80,18 @@ rank5 <- function(x,n=5){
   U <- sum(x[ndx])
   return(U)
 }
+
+racename <- function()
+{ 
+  n <- readline(prompt="Enter Race Name (No Spaces) -> ")
+  
+  n <- as.character(n)
+  if (n==""){
+    print("You didn't enter a Race Name")
+    n <- racename()
+  }
+  return(n)
+}
+
+
 
