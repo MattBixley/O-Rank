@@ -45,7 +45,8 @@ rank5("MattBixley")
 ranks <- ddply(current,"FullName",rank)
 
 
-rank[order(-rank$V1),]
+rx <-ranks[order(-ranks$V1),]
+rx[1:50,]
 
 my_rank("AnnBixley")
 my_rank("MattBixley")
